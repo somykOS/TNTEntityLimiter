@@ -3,14 +3,14 @@
 	"id": "tntentitylimiter",
 	"version": "${version}",
 	"name": "TNTEntity Limiter",
-	"description": "",
+	"description": "Chains TntEntity",
 	"authors": [
 		"somyk"
 	],
 	"contact": {
 		"sources": "https://github.com/somykOS/TNTEntityLimiter"
 	},
-	"license": "CC-BY-NC-SA-4.0",
+	"license": "MPL 2.0",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
@@ -25,8 +25,5 @@
 		"minecraft": "~1.21",
 		"java": ">=21",
 		"fabric-api": "*"
-	},
-	"suggests": {
-		"another-mod": "*"
 	}
 }
