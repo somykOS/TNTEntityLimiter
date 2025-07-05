@@ -1,25 +1,22 @@
 {
 	"schemaVersion": 1,
-	"id": "tntentitylimiter",
+	"id": "tntqueue",
 	"version": "${version}",
-	"name": "TNTEntity Limiter",
+	"name": "TNTQueue",
 	"description": "Chains TntEntity",
 	"authors": [
 		"somyk"
 	],
 	"contact": {
-		"sources": "https://github.com/somykOS/TNTEntityLimiter"
+		"sources": "https://github.com/somykOS/TNTQueue"
 	},
 	"license": "MPL 2.0",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"net.somyk.tntentitylimiter.TntEntityLimiter"
+			"net.somyk.tntqueue.TntQueue"
 		]
 	},
-	"mixins": [
-		"tntentitylimiter.mixins.json"
-	],
 	"depends": {
 		"fabricloader": ">=0.15.11",
 		"minecraft": "~1.21",

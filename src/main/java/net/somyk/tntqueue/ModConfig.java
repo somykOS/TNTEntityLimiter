@@ -1,4 +1,4 @@
-package net.somyk.tntentitylimiter;
+package net.somyk.tntqueue;
 
 import net.fabricmc.loader.api.FabricLoader;
 import org.simpleyaml.configuration.file.YamlFile;
@@ -6,11 +6,12 @@ import org.simpleyaml.configuration.file.YamlFile;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import static net.somyk.tntentitylimiter.TntEntityLimiter.*;
+import static net.somyk.tntqueue.TntQueue.*;
 
 public class ModConfig {
 
     public static final String maxPrimedTntAmount = "maxPrimedTntAmount";
+    public static final String maxQueueSize = "maxQueueSize";
     private static final Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir().resolve(MOD_ID + ".yml").toFile().toPath();
     private static final YamlFile config = new YamlFile(CONFIG_PATH.toString());
 
@@ -27,12 +28,13 @@ public class ModConfig {
     private static void initializeConfig() throws IOException {
         if (!config.exists()) {
             config.createNewFile();
-            LOGGER.info("[{}]: Config has been created: {}", MOD_ID, CONFIG_PATH);
+            LOGGER.info("Config has been created: {}", CONFIG_PATH);
         } else {
-            LOGGER.info("[{}]:Loaded {}", MOD_ID, CONFIG_PATH);
+            LOGGER.info("Loaded {}", CONFIG_PATH);
         }
         config.loadWithComments();
-        config.addDefault(maxPrimedTntAmount, 1);
+        config.addDefault(maxPrimedTntAmount, 3);
+        config.addDefault(maxQueueSize, 100);
         config.save();
     }
 

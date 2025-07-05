@@ -1,10 +1,17 @@
-## TNTEntity Limiter
-Queue the TNT until it fits into the maximum amount of primed TNT
+## TNTQueue
+TNTQueue is a mod designed to limit the number of simultaneously active primed TNT entities. <br>
+When the number of primed TNT exceeds a configurable limit, additional TNT is placed in a queue and activated later, <br>
+preventing server lag caused by excessive explosions.
 
-Config has only one value `maxPrimedTntAmount`. You can change it manually or via command `/tnt-entity-limiter <value>`.<br>
-To access the command you should have `tnt-entity-limiter.modify` permission.
+The mod has two configuration options, which can be adjusted either manually in the config file or using the in-game command:
 
-In the example limit is up to 3 tnt. <br>
+*   **`maxPrimedTntAmount`:** The maximum number of primed TNT entities allowed to be active simultaneously.
+*   **`maxQueueSize`:**  The maximum number of TNT entities that can be stored in the queue.
+
+The `/tntqueue <option> <value>` command is available to modify the configuration options<br>
+To use the command, you need the `tntqueue.modify` permission or op.
+
+In the example limit of primed tnt is up to 3 tnt. <br>
 ![](tnt.gif)
 
 ---
