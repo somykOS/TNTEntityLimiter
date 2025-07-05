@@ -1,7 +1,6 @@
 ## TNTQueue
 TNTQueue is a mod designed to limit the number of simultaneously active primed TNT entities. <br>
-When the number of primed TNT exceeds a configurable limit, additional TNT is placed in a queue and activated later, <br>
-preventing server lag caused by excessive explosions.
+When the number of primed TNT exceeds a configurable limit, additional TNT is placed in a queue and activated later, preventing server lag caused by excessive explosions.
 
 The mod has two configuration options, which can be adjusted either manually in the config file or using the in-game command:
 
