@@ -6,8 +6,11 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.TntEntity;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.NbtReadView;
+import net.minecraft.storage.NbtWriteView;
+import net.minecraft.storage.ReadView;
+import net.minecraft.util.ErrorReporter;
 import net.somyk.tntqueue.command.ModifyConfigCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,9 +81,10 @@ public class TntQueue implements ModInitializer {
 	private TntEntity cloneTntEntity(TntEntity original, ServerWorld world) {
 		try {
 			TntEntity cloned = new TntEntity(world, original.getX(), original.getY(), original.getZ(), original.getOwner());
-			NbtCompound nbt = new NbtCompound();
-			original.writeNbt(nbt);
-			cloned.readNbt(nbt);
+			NbtWriteView writeView = NbtWriteView.create(ErrorReporter.EMPTY, world.getRegistryManager());
+			original.writeData(writeView);
+			ReadView readView = NbtReadView.create(ErrorReporter.EMPTY, world.getRegistryManager(), writeView.getNbt());
+			cloned.readData(readView);
 			cloned.setVelocity(original.getVelocity());
 			cloned.setFuse(original.getFuse());
 			return cloned;
