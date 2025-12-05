@@ -4,26 +4,26 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import me.lucko.fabric.api.permissions.v0.Permissions;
-import net.minecraft.command.CommandRegistryAccess;
-import net.minecraft.server.command.CommandManager;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.Text;
+import net.minecraft.commands.CommandBuildContext;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.Commands.CommandSelection;
+import net.minecraft.network.chat.Component;
 
 import static net.somyk.tntqueue.ModConfig.*;
-import static net.minecraft.server.command.CommandManager.*;
 import static net.somyk.tntqueue.TntQueue.*;
 
 public class ModifyConfigCommand {
 
-    public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess commandRegistryAccess, CommandManager.RegistrationEnvironment registrationEnvironment) {
-        dispatcher.register(literal(MOD_ID.toLowerCase())
-                .requires(source -> Permissions.check(source, MOD_ID + ".modify") || source.hasPermissionLevel(4))
-                .then(literal(maxPrimedTntAmount)
+    public static void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext commandRegistryAccess, CommandSelection commandSelection) {
+        dispatcher.register(Commands.literal(MOD_ID.toLowerCase())
+                .requires((source) -> Permissions.check(source, MOD_ID + ".modify", false) || source.hasPermission(4))
+                .then(Commands.literal(maxPrimedTntAmount)
                         .executes(context -> {
-                            context.getSource().sendFeedback(() -> Text.literal(String.format("Current limit is %d", getIntegerValue(maxPrimedTntAmount))), false);
+                            context.getSource().sendSuccess(() -> Component.literal(String.format("Current limit is %d", getIntegerValue(maxPrimedTntAmount))), false);
                             return 1;
                         })
-                        .then(argument("value", IntegerArgumentType.integer(0))
+                        .then(Commands.argument("value", IntegerArgumentType.integer(0))
                                 .executes(context -> {
                                     try {
                                         return changeMaxPrimedTntAmount(context, IntegerArgumentType.getInteger(context, "value"));
@@ -33,12 +33,12 @@ public class ModifyConfigCommand {
                                 })
                         )
                 )
-                .then(literal(maxQueueSize)
+                .then(Commands.literal(maxQueueSize)
                         .executes(context -> {
-                            context.getSource().sendFeedback(() -> Text.literal(String.format("Current queue size is %d", getIntegerValue(maxQueueSize))), false);
+                            context.getSource().sendSuccess(() -> Component.literal(String.format("Current queue size is %d", getIntegerValue(maxQueueSize))), false);
                             return 1;
                         })
-                        .then(argument("value", IntegerArgumentType.integer(0))
+                        .then(Commands.argument("value", IntegerArgumentType.integer(0))
                                 .executes(context -> {
                                     try {
                                         return changeMaxQueueSize(context, IntegerArgumentType.getInteger(context, "value"));
@@ -51,15 +51,15 @@ public class ModifyConfigCommand {
         );
     }
 
-    private static int changeMaxPrimedTntAmount(CommandContext<ServerCommandSource> context, int value) {
+    private static int changeMaxPrimedTntAmount(CommandContext<CommandSourceStack> context, int value) {
         setValue(maxPrimedTntAmount, value);
-        context.getSource().sendFeedback(() -> Text.literal(String.format("Successfully changed the maximum amount of primed tnt to %d", value)), true);
+        context.getSource().sendSuccess(() -> Component.literal(String.format("Successfully changed the maximum amount of primed tnt to %d", value)), true);
         return 1;
     }
 
-    private static int changeMaxQueueSize(CommandContext<ServerCommandSource> context, int value) {
+    private static int changeMaxQueueSize(CommandContext<CommandSourceStack> context, int value) {
         setValue(maxQueueSize, value);
-        context.getSource().sendFeedback(() -> Text.literal(String.format("Successfully changed the maximum size of primed tnt queue to %d", value)), true);
+        context.getSource().sendSuccess(() -> Component.literal(String.format("Successfully changed the maximum size of primed tnt queue to %d", value)), true);
         return 1;
     }
 }
